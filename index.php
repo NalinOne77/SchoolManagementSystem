@@ -1,31 +1,25 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: nalin
- * Date: 7/10/2018
- * Time: 4:17 PM
- */
-include('inc/header.php');
-?>
+<!--Include header from another file-->
+<?php include('inc/header.php'); ?>
+
+<!--Check user login.If session not found redirect the user to Login page-->
 <?php
     $login = Session::get('userLogin');
-    if($login==false){
-        header("Location:login.php");
-    }
+        if($login==false){
+            header("Location:login.php");
+        }
 ?>
 <style>
-    .profilepic:hover{
-        background: rgba(50, 146, 166, 0.8);
-        transition: 0.2s;
-    }
-</style>
-<body>
 
+</style>
+
+<!--Include Navbar from another file-->
 <?php include('inc/navbar.php')?>
 
 <section id="authors" class="">
 <div class="container">
     <div class="row">
+
+        <!--Start Sidebar section-->
         <div class="col col-md-3 col-lg-3 text-center">
                 <div class="card">
                     <div class="card-body">
@@ -43,21 +37,22 @@ include('inc/header.php');
                     </div>
                 </div>
         </div>
-        <div class="col col-md-9 col-lg-9">
+        <!--End Sidebar Section-->
 
+        <!--Start Main section-->
+        <div class="col col-md-9 col-lg-9">
                     <div class="jumbotron jumbotron-fluid text-center welcome">
                         <div class="container">
                             <h1 class="display-4">Welcome!!!</h1>
                             <p class="lead"><?php echo Session::get('school')?> college Kandy</p>
                         </div>
                     </div>
-
         </div>
+        <!--End main section-->
+
     </div>
 </div>
 </section>
+
+<!--Include Footer from another file-->
 <?php include('inc/footer.php')?>
-<script type="text/javascript" src="js/jquery.min.js"></script>
-<script type="text/javascript" src="js/bootstrap.min.js"></script>
-</body>
-</html>

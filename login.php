@@ -1,11 +1,14 @@
+<!--Include header from another file-->
+<?php include('inc/header.php'); ?>
+
+<!--Get the user login details and send to the database for check user details-->
 <?php
-include('inc/header.php');
+    if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
+        $logUser = $user->logUser($_POST);
+    }
 ?>
-<?php
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
-    $logUser = $user->logUser($_POST);
-}
-?>
+
+<!--Check user login.If session found redirect the user to Main page-->
 <?php
 $login = Session::get('userLogin');
     if($login==true){
@@ -13,7 +16,12 @@ $login = Session::get('userLogin');
 
 }
 ?>
+
+<!-- Start Inline Stylesheet-->
 <style>
+    body{
+        margin-top:50px;
+    }
     .login{
         margin-top:140px;
     }
@@ -24,8 +32,9 @@ $login = Session::get('userLogin');
        color:#f5f5f5;
     }
 </style>
-<body style="margin-top: 50px">
+<!-- End Inline Stylesheet-->
 
+<!--Start navbar-->
 <nav class="navbar navbar-dark bg-dark fixed-top">
     <div class="container">
         <a class="navbar-brand"><img src="img/logo.png" width="50px" height="50px" alt="" class="logo">CloudSchool</a>
@@ -36,14 +45,16 @@ $login = Session::get('userLogin');
         </form>
     </div>
 </nav>
+<!--End navbar-->
+
 
 <section id="showcase" class="py-5">
     <div class="primary-overlay">
         <div class="container">
             <div class="row">
-                <div class="col-md-12 text-white"><h1 class="display-5 pt-5 text-center">
-                        Welcome to CloudSchool
-                    </h1></div>
+                <div class="col-md-12 text-white"><h1 class="display-5 pt-5 text-center">Welcome to CloudSchool</h1></div>
+
+                <!--Start testimonial-->
                 <div class="col-lg-7 text-center text-white py-5">
                     <div class="slider">
                         <div>
@@ -81,6 +92,9 @@ $login = Session::get('userLogin');
                         </div>
                     </div>
                 </div>
+                <!--End testimonial-->
+
+                <!--Start login form-->
                 <div class="col-lg-5 text-center py-5 pl-lg-5">
                     <div class="container">
                         <div class="row">
@@ -105,10 +119,9 @@ $login = Session::get('userLogin');
                                     <?php if(isset($logUser)){echo $logUser;}?>
                                 </form>
                         </div>
-
                     </div>
-
                 </div>
+                <!--End login form-->
 
             </div>
         </div>

@@ -1,17 +1,25 @@
+<!--Include header from another file-->
 <?php include('inc/header.php'); ?>
+
+<!--Register the users into the system by getting form data and save them in database-->
 <?php
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
     $addUser = $user->addUser($_POST);
 }
 ?>
 
+<!--Start inline stylesheet-->
 <style>
+    body{
+        margin-top: 50px;
+    }
     .register{
         width:50%;
     }
 </style>
-<body style="margin-top: 50px">
+<!--End inline stylesheet-->
 
+<!--Start navbar-->
 <nav class="navbar navbar-dark bg-dark fixed-top">
     <div class="container">
         <a class="navbar-brand"><img src="img/logo.png" width="50px" height="50px" alt="" class="logo">CloudSchool</a>
@@ -22,11 +30,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
         </form>
     </div>
 </nav>
+<!--End Navbar-->
 
 <section id="showcase" class="py-5">
     <div class="primary-overlay">
         <div class="container">
             <div class="row">
+
                 <div class="col-lg-5 text-center text-white py-5">
                     <img class="img-fluid d-none d-lg-block mt-5" src="img/world.PNG" width="100%" height="60%">
                     <h2 class="display-5 pt-2">
@@ -36,13 +46,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
                         <p class="mb-0 h5">CloudSchool is a school management platform where you can manage your day to day school activities easily.</p>
                     </p>
                 </div>
+
+                <!--Start user registration section-->
                 <div class="col-lg-7 text-center py-5">
                     <div class="container">
                         <div class="row justify-content-center">
-                            <h2 class="display-5 pt-2 text-white">
-                                Registration
-                            </h2>
+
+                            <h2 class="display-5 pt-2 text-white">Registration</h2>
+
                                     <form class="mt-3" action="register.php" method="post">
+
                                         <div class="form-group">
                                             <div class="input-group">
                                                 <span class="input-group-addon"><i class="fa fa-graduation-cap"></i></span>
@@ -83,6 +96,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
                                                 <input type="text" class="form-control" name="fullname" placeholder="Full Name">
                                             </div>
                                         </div>
+
                                         <div class="form-row">
                                             <div class="form-group col-md-6">
                                                 <div class="input-group ">
@@ -97,7 +111,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
                                                     <input type="date" class="form-control" name="dob" placeholder="DOB">
                                                 </div>
                                             </div>
-
                                         </div>
 
                                         <div class="form-group">
@@ -114,12 +127,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
                                                     <input type="email" class="form-control" name="email" placeholder="Email">
                                                 </div>
                                             </div>
+
                                             <div class="form-group col-md-4">
                                                 <div class="input-group ">
                                                     <span class="input-group-addon"><i class="fa fa-lock"></i></span>
                                                     <input type="password" class="form-control" name="password" placeholder="Password">
                                                 </div>
                                             </div>
+
                                             <div class="form-group col-md-4">
                                                 <div class="input-group ">
                                                     <span class="input-group-addon"><i class="fa fa-lock"></i></span>
@@ -133,9 +148,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
                                     </form>
                         </div>
                         <br/>
+                        <!--Display notifications-->
                         <?php if(isset($addUser)){echo $addUser;}?>
                     </div>
                 </div>
+                <!--End user registration section-->
+
             </div>
         </div>
     </div>

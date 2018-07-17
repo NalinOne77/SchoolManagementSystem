@@ -21,7 +21,7 @@ class User
         $this->db = new Database();
         $this->fm = new Format();
     }
-
+    /*This method add new user to the system*/
     public function addUser($data){
         $school =  mysqli_real_escape_string($this->db->link,$data['school']);
         $role=  mysqli_real_escape_string($this->db->link,$data['role']);
@@ -38,7 +38,6 @@ class User
             $msg = "<span class='alert alert-warning'>Field cannot be Empty!</span>";
             return $msg;
         }
-
 
         $getmail = "SELECT * FROM users WHERE email='$email' LIMIT 1";
         $res = $this->db->select($getmail);
@@ -82,6 +81,8 @@ class User
             }
         }
     }
+
+    /*This method logged in users to the system*/
     public function logUser($data){
         $email=  mysqli_real_escape_string($this->db->link,$data['email']);
         $password=  mysqli_real_escape_string($this->db->link,md5($data['password']));
@@ -122,6 +123,7 @@ class User
 
     }
 
+    /*This method get deactivated users from the database*/
     public function getDeactivateUsers(){
         $query = "SELECT user_id,name,users.registered_date,users.status,photo,user_types.userType,email,users.address,schools.sclname
           FROM users
@@ -132,6 +134,7 @@ class User
         return $result;
     }
 
+    /*This method activate deactivated users by updating their status value*/
     public function activateAccount($uid){
         $query = "UPDATE users SET status=1 WHERE user_id='$uid'";
         $result=$this->db->update($query);
@@ -144,6 +147,7 @@ class User
         }
     }
 
+    /*This method delete users from the system by using user_id*/
     public function deleteUsers($uid){
         $query = "DELETE FROM users WHERE user_id='$uid'";
         $result =$this->db->delete($query);
@@ -155,7 +159,7 @@ class User
             return $msg;
         }
     }
-
+    /*This method return only Students and prefect from the database*/
     public function getStudents($school_id,$start_from,$num_of_pages){
 
         $query = "SELECT user_id,name,users.registered_date,user_types.userType,email,users.address,schools.school_id

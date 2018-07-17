@@ -1,25 +1,23 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: nalin
- * Date: 7/10/2018
- * Time: 4:17 PM
- */
 
-include('inc/header.php');
+<!--Include header from another file-->
+<?php include('inc/header.php'); ?>
 
-?>
+<!--Get data from the form and insert it to the database using method in the User class-->
 <?php
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
     $addUser = $user->addUser($_POST);
 }
 ?>
+
+<!--Redirect page if wrong user try to access this page-->
 <?php
 $teacher = Session::get('role');
 if(strcmp($teacher,"Teacher")!=0){
     header("Location:404.php");
 }
 ?>
+
+<!--Get page number-->
 <?php
     if(isset($_GET['page']) ){
         $pg = $_GET['page'];
@@ -27,12 +25,15 @@ if(strcmp($teacher,"Teacher")!=0){
         $pg=1;
     }
 ?>
-<body>
+
+<!--Include Navbar from another file-->
 <?php include('inc/navbar.php')?>
 
 <section id="users" class="">
     <div class="container">
         <div class="row">
+
+            <!--Start Sidebar Section-->
             <div class="col col-md-3 col-lg-3 text-center">
                 <div class="card">
                     <div class="card-body">
@@ -49,22 +50,33 @@ if(strcmp($teacher,"Teacher")!=0){
                     </div>
                 </div>
             </div>
+            <!--End Sidebar Section-->
+
+            <!--Start Main Section-->
             <div class="col col-md-9 col-lg-9">
                 <div class="card">
                     <div class="card-body">
                         <div class="card-title">Add a Student</div>
+
                         <form action="addStudent.php" method="post">
+
                             <div class="form-row">
+
                                 <div class="form-group col-md-6">
                                     <label for="studentName">Student Name</label>
                                     <input type="text" class="form-control" name="fullname" placeholder="Student Name">
                                 </div>
+
                             </div>
+
                             <div class="form-row">
+
                             <div class="form-group col-md-3">
                                 <label for="role">Role</label><br/>
                                 <select class="form-control" name="role">
                                     <option>Select a role</option>
+
+                                    <!--Add a student to the system-->
                                     <?php
                                         $roles = $role->getStudents();
                                         if($roles){
@@ -75,14 +87,17 @@ if(strcmp($teacher,"Teacher")!=0){
                                     <?php }}?>
                                 </select>
                             </div>
+
                                 <div class="form-group col-md-6">
                                     <input type="text" class="form-control" name="school" value="<?php echo Session::get('schoolid')?>" hidden>
                                 </div>
                             </div>
+
                             <div class="form-group col-md-9">
                                 <label for="address">Address</label>
                                 <textarea class="form-control" name="address" placeholder="Address" rows="2"></textarea>
                             </div>
+
                             <div class="form-row">
                                 <div class="form-group col-md-4">
                                     <label for="nic">NIC</label>
@@ -94,15 +109,18 @@ if(strcmp($teacher,"Teacher")!=0){
                                     <input type="date" class="form-control" name="dob">
                                 </div>
                             </div>
+
                             <div class="form-row">
                                 <div class="form-group col-md-4">
                                     <label for="username">Email</label>
                                     <input type="email" class="form-control" name="email" placeholder="Email">
                                 </div>
+
                                 <div class="form-group col-md-4">
                                     <label for="password">Password</label>
                                     <input type="password" class="form-control" name="password" placeholder="Password">
                                 </div>
+
                                 <div class="form-group col-md-4">
                                     <label for="confirmpass">confirm password</label>
                                     <input type="password" class="form-control" name="cpassword" placeholder="Confirm password">
@@ -113,7 +131,11 @@ if(strcmp($teacher,"Teacher")!=0){
                         </form>
                     </div>
                 </div>
+
+
                 <br/>
+
+                <!--Display current students in a Table-->
                 <div class="card">
                     <div class="card-body">
                         <div class="card-title">Current Students</div>
@@ -136,7 +158,6 @@ if(strcmp($teacher,"Teacher")!=0){
                                     while($result=$users->fetch_assoc()){
                                         $i++;
                             ?>
-
                             <tr>
                                 <th scope="row"><?php echo $i;?></th>
                                 <td><?php echo $result['name'];?></td>
@@ -146,8 +167,8 @@ if(strcmp($teacher,"Teacher")!=0){
                           <?php }}?>
                             </tbody>
                         </table>
-                        </tbody>
-                        </table>
+
+                        <!-- Start Pagination-->
                         <nav aria-label="User Pagination">
                             <ul class="pagination">
                                     <?php
@@ -160,14 +181,16 @@ if(strcmp($teacher,"Teacher")!=0){
                                     ?>
                             </ul>
                         </nav>
+                        <!-- End Pagination-->
+
                     </div>
                 </div>
             </div>
+            <!--End Main section-->
+
         </div>
     </div>
 </section>
+
+<!--Footer Section-->
 <?php include('inc/footer.php')?>
-<script type="text/javascript" src="js/jquery.min.js"></script>
-<script type="text/javascript" src="js/bootstrap.min.js"></script>
-</body>
-</html>

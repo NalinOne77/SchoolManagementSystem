@@ -1,25 +1,23 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: nalin
- * Date: 7/10/2018
- * Time: 4:17 PM
- */
-include('inc/header.php');
+<!--Include header from another file-->
+<?php include('inc/header.php'); ?>
 
-?>
+<!--Get notice details from the form and send them to the database using method in Notification class-->
 <?php
 $uid = Session::get('uid');
-if($_SERVER['REQUEST_METHOD'] == 'POST'){
-    $Notification_response = $notification->sendNotification($_POST,$uid);
-}
+    if($_SERVER['REQUEST_METHOD'] == 'POST'){
+        $Notification_response = $notification->sendNotification($_POST,$uid);
+    }
 ?>
+
+<!--Delete notification by using notification_id-->
 <?php
-if(isset($_GET['notid'])){
-    $notid = $_GET['notid'];
-    $delNotifications = $notification->delNotification($notid);
-}
+    if(isset($_GET['notid'])){
+        $notid = $_GET['notid'];
+        $delNotifications = $notification->delNotification($notid);
+    }
 ?>
+
+<!--Redirect page if wrong user try to access this page-->
 <?php
 $teacher = Session::get('role');
 if(strcmp($teacher,"Teacher")!=0){
@@ -27,12 +25,14 @@ if(strcmp($teacher,"Teacher")!=0){
 }
 ?>
 
-<body>
+<!--Include navbar from another file-->
 <?php include('inc/navbar.php')?>
 
 <section id="authors" class="">
     <div class="container">
         <div class="row">
+
+            <!--Start sidebar section-->
             <div class="col col-md-3 col-lg-3 text-center">
                 <div class="card">
                     <div class="card-body">
@@ -49,11 +49,16 @@ if(strcmp($teacher,"Teacher")!=0){
                     </div>
                 </div>
             </div>
+            <!--End sidebar section-->
+
+            <!--Start main section-->
             <div class="col col-md-9 col-lg-9">
                 <div class="card">
                     <div class="card-body">
                         <div class="card-title">Add Notice</div>
+
                         <form action="sendNotifications.php" method="post">
+
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label for="to">To</label>
@@ -69,11 +74,13 @@ if(strcmp($teacher,"Teacher")!=0){
                                             <?php }}?>
                                     </select>
                                 </div>
+
                                 <div class="form-group col-md-6">
                                     <label for="title">Title</label>
                                     <input type="text" class="form-control" name="title" placeholder="Title">
                                 </div>
                             </div>
+
                             <div class="form-group">
                                 <label for="role">Message</label><br/>
                                 <textarea class="form-control" name="message"></textarea>
@@ -100,6 +107,7 @@ if(strcmp($teacher,"Teacher")!=0){
                             </tr>
                             </thead>
                             <tbody>
+                            <!--Display Notification in a Table-->
                             <?php
                             $notifications = $notification->getTeacherNotifications($uid);
                             if($notifications){
@@ -123,11 +131,11 @@ if(strcmp($teacher,"Teacher")!=0){
 
                 </div>
             </div>
+            <!--End main section-->
+
         </div>
     </div>
 </section>
+
+<!--Footer section-->
 <?php include('inc/footer.php')?>
-<script type="text/javascript" src="js/jquery.min.js"></script>
-<script type="text/javascript" src="js/bootstrap.min.js"></script>
-</body>
-</html>

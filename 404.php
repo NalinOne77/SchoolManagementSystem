@@ -24,6 +24,8 @@ include('inc/header.php');
 
 </style>
 <body>
+
+<!--Include header from another file-->
 <?php include('inc/navbar.php')?>
 
 <section id="users" class="">
@@ -43,8 +45,5 @@ include('inc/header.php');
         </div>
     </div>
 </section>
+    <!--Footer section-->
 <?php include('inc/footer.php')?>
-<script type="text/javascript" src="js/jquery.min.js"></script>
-<script type="text/javascript" src="js/bootstrap.min.js"></script>
-</body>
-</html>

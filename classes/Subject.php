@@ -45,13 +45,14 @@ class Subject
 
     }
 
-    /**/
+    /*This method return all subjects belongs to a particular teacher*/
     public function getAllSubjects($uid,$start_from,$num_of_pages){
         $query = "SELECT * FROM subjects WHERE teacher='$uid' ORDER BY subjects_id DESC LIMIT $start_from,$num_of_pages";
         $result = $this->db->select($query);
         return $result;
     }
 
+    /*This method delete subject using subject_id*/
     public function delSubject($sid){
         $query = "DELETE FROM subjects WHERE subjects_id='$sid'";
         $result = $this->db->delete($query);

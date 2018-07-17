@@ -1,14 +1,13 @@
 
-<!--Include header and Nav bar from a another file-->
+<!--Include header and Nav bar from another file-->
 <?php include('inc/header.php')?>
 <?php include('inc/navbar.php')?>
 
-<section id="users" class="">
+<section id="users">
     <div class="container">
         <div class="row">
 
-            <!--Start Sidebar-->
-
+            <!--Start sidebar section-->
             <div class="col col-md-3 col-lg-3 text-center">
                 <div class="card">
                     <div class="card-body">
@@ -23,20 +22,24 @@
 
                         </div>
                     </div>
-                </div
+                </div>
+            </div>
+            <!--End sidebar section-->
 
-             <!--End Slidebar-->
-
+            <!--Start main section-->
             <div class="col col-md-9 col-lg-9 dashboard">
-             <div class="jumbotron jumbotron-fluid text-center welcome">
-                 <div class="container">
-                    <h1 class="display-4">Welcome to Admin area</h1>
-                 </div>
-              </div>
+
+                        <div class="jumbotron jumbotron-fluid text-center welcome">
+                            <div class="container">
+                                <h1 class="display-4">Welcome to Admin area</h1>
+                            </div>
+                        </div>
 
                 <br/>
-                    <!--Display Schools count-->
+
                 <div class="row">
+
+                    <!--Display Schools count-->
                     <div class="col-md-4 text-center">
                         <div class="card schools">
                             <div class="card-body">
@@ -58,7 +61,7 @@
                         </div>
                     </div>
 
-                    <!--Display Prefects Count-->
+                    <!--Display prefects count-->
                     <div class="col-md-4 text-center">
                         <div class="card prefects">
                             <div class="card-body">
@@ -68,8 +71,11 @@
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
+            <!--End main section-->
+
         </div>
     </div>
 </section>

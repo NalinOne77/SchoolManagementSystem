@@ -1,44 +1,47 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: nalin
- * Date: 7/10/2018
- * Time: 4:17 PM
- */
-include('inc/header.php');
+<!--Include header from another file-->
+<?php include('inc/header.php'); ?>
 
-?>
+<!--Get subject details from the form and send them to the database by using method in a Subject Class-->
 <?php
 $uid = Session::get('uid');
-if($_SERVER['REQUEST_METHOD'] == 'POST'){
-    $Subject_response = $subject->addSubject($_POST,$uid);
-}
+    if($_SERVER['REQUEST_METHOD'] == 'POST'){
+        $Subject_response = $subject->addSubject($_POST,$uid);
+    }
 ?>
+
+<!--Delete subject by using subject_id-->
 <?php
-if(isset($_GET['subid'])){
-    $sid = $_GET['subid'];
-    $delSubject = $subject->delSubject($sid);
-}
+    if(isset($_GET['subid'])){
+        $sid = $_GET['subid'];
+        $delSubject = $subject->delSubject($sid);
+    }
 ?>
+
+<!--Redirect page if wrong user try to access this page-->
 <?php
 $teacher = Session::get('role');
-if(strcmp($teacher,"Teacher")!=0){
-    header("Location:404.php");
-}
+    if(strcmp($teacher,"Teacher")!=0){
+        header("Location:404.php");
+    }
 ?>
+
+<!--Get page number-->
 <?php
-if(isset($_GET['page']) ){
-    $pg = $_GET['page'];
-}else{
-    $pg=1;
-}
+    if(isset($_GET['page']) ){
+        $pg = $_GET['page'];
+    }else{
+        $pg=1;
+    }
 ?>
-<body>
+
+<!--Include Navbar from another file-->
 <?php include('inc/navbar.php')?>
 
 <section id="authors" class="">
     <div class="container">
         <div class="row">
+
+            <!--Start Sidebar Section-->
             <div class="col col-md-3 col-lg-3 text-center">
                 <div class="card">
                     <div class="card-body">
@@ -56,16 +59,21 @@ if(isset($_GET['page']) ){
                     </div>
                 </div>
             </div>
+            <!--End Sidebar Section-->
+
+            <!--Start main section-->
             <div class="col col-md-9 col-lg-9">
                 <div class="card">
                     <div class="card-body">
                         <div class="card-title">Add a Subject</div>
+
                         <form action="addSubject.php" method="post">
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label for="subjectName">Subject Name</label>
                                     <input type="text" class="form-control" name="subjectName" placeholder="Subject Name">
                                 </div>
+
                                 <div class="form-group col-md-3">
                                     <label for="hours">Hours</label>
                                     <input type="number" class="form-control" name="learningHours" placeholder="Hours">
@@ -78,7 +86,9 @@ if(isset($_GET['page']) ){
 
                     </div>
                 </div>
+
                 <br/>
+
                 <div class="card">
                     <div class="card-body">
                         <div class="card-title">My Subjects</div>
@@ -92,6 +102,7 @@ if(isset($_GET['page']) ){
                             </tr>
                             </thead>
                             <tbody>
+                            <!--Display all subjects in a table-->
                             <?php
                             $start_from = ($pg-1)*5;
                                 $subjects = $subject->getAllSubjects($uid,$start_from,5);
@@ -110,6 +121,8 @@ if(isset($_GET['page']) ){
                             </tbody>
                         </table>
                         <?php if(isset($delSubject)){echo $delSubject;}?>
+
+                        <!--Start pagination-->
                         <nav aria-label="Subject Pagination">
                             <ul class="pagination">
                                 <?php
@@ -122,15 +135,17 @@ if(isset($_GET['page']) ){
                                 ?>
                             </ul>
                         </nav>
+                        <!--End pagination-->
+
                     </div>
 
                 </div>
             </div>
+            <!--End main Section-->
+
         </div>
     </div>
 </section>
+
+<!--Footer section-->
 <?php include('inc/footer.php')?>
-<script type="text/javascript" src="js/jquery.min.js"></script>
-<script type="text/javascript" src="js/bootstrap.min.js"></script>
-</body>
-</html>
