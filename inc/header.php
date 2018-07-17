@@ -16,6 +16,7 @@
     $subject = new Subject();
     $notification = new Notification();
     $page = new Pagination();
+    $log = new Log();
 ?>
 
 <!DOCTYPE html>

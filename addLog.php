@@ -1,38 +1,38 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: nalin
- * Date: 7/10/2018
- * Time: 4:17 PM
- */
-include('inc/header.php');
+<!--Include header from another file-->
+<?php include('inc/header.php'); ?>
 
-?>
+<!--Get log details from the form and add log record to the database-->
 <?php
 $uid = Session::get('uid');
-if($_SERVER['REQUEST_METHOD'] == 'POST'){
-    $Subject_response = $subject->addLog($_POST,$uid);
-}
+    if($_SERVER['REQUEST_METHOD'] == 'POST'){
+        $log_response = $log->addLog($_POST,$uid);
+    }
 ?>
+
+<!--Delete particular log record using log_id-->
 <?php
-if(isset($_GET['subid'])){
-    $sid = $_GET['subid'];
-    $delSubject = $subject->delSubject($sid);
+if(isset($_GET['logid'])){
+    $logid = $_GET['logid'];
+    $dellog = $log->delLog($logid);
 }
 ?>
+
+<!--Redirect page if wrong user try to access this page-->
 <?php
 $coordinator= Session::get('role');
-if(strcmp($coordinator,"Coordinator")!=0){
-    header("Location:404.php");
-}
+    if(strcmp($coordinator,"Coordinator")!=0){
+        header("Location:404.php");
+    }
 ?>
 
-<body>
+<!--Include navbar from another file-->
 <?php include('inc/navbar.php')?>
 
-<section id="authors" class="">
+<section id="authors">
     <div class="container">
         <div class="row">
+
+            <!--Start Sidebar Section-->
             <div class="col col-md-3 col-lg-3 text-center">
                 <div class="card">
                     <div class="card-body">
@@ -45,15 +45,21 @@ if(strcmp($coordinator,"Coordinator")!=0){
                             <a href="addStudent.php" class="list-group-item list-group-item-action" style="<?php if(Session::get('role')!="Teacher"){echo "display:none";}?>">Add User</a>
                             <a href="sendNotifications.php" class="list-group-item list-group-item-action" style="<?php if(Session::get('role')!="Teacher"){echo "display:none";}?>">Send Notices</a>
                             <a href="addLog.php" class="list-group-item list-group-item-action active" style="<?php if(Session::get('role')!="Coordinator"){echo "display:none";}?>">Add Logs</a>
+                            <a href="logHistory.php" class="list-group-item list-group-item-action" style="<?php if(Session::get('role')!="Coordinator"){echo "display:none";}?>">Log history</a>
                         </div>
                     </div>
                 </div>
             </div>
+            <!--End sidebar section-->
+
+            <!--Start main section-->
             <div class="col col-md-9 col-lg-9">
                 <div class="card">
                     <div class="card-body">
                         <div class="card-title">Add a Log</div>
-                        <form action="addSubject.php" method="post">
+
+                        <form action="addlog.php" method="post">
+
                             <div class="form-row">
                                 <div class="input-group col-md-8">
                                     <span class="input-group-addon"><i class="fa fa-graduation-cap"></i></span>
@@ -68,6 +74,7 @@ if(strcmp($coordinator,"Coordinator")!=0){
                                             <?php }}?>
                                     </select>
                                 </div>
+
                                 <div class="input-group col-md-4">
                                     <span class="input-group-addon"><i class="fa fa-user"></i></span>
                                     <select class="form-control" name="role" id="role">
@@ -82,35 +89,101 @@ if(strcmp($coordinator,"Coordinator")!=0){
                                     </select>
                                 </div>
                             </div>
+
                             <br/>
+
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <div class="input-group ">
                                         <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
-                                        <select class="form-control" name="name" id="name">
+                                        <select class="form-control" name="rname" id="name">
                                             <option>Select name</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <div class="input-group ">
+                                        <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
+                                        <select class="form-control" name="action" id="action">
+                                            <option>Select Action</option>
+                                            <option value="Call">Call</option>
+                                            <option value="email">Email</option>
                                         </select>
                                     </div>
                                 </div>
                             </div>
 
-                            <dic id="result"></dic>
-
+                            <div class="form-group">
+                                <div class="input-group ">
+                                    <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
+                                    <textarea class="form-control" name="comment" rows="3" id="action" placeholder="Comment"></textarea>
+                                </div>
+                            </div>
 
                             <br/>
-                            <input type="submit" class="btn btn-info" value="Add">
-                            <?php if(isset($Subject_response)){echo $Subject_response;}?>
+                            <button type="submit" class="btn btn-info"> Add</button>
+                            <?php if(isset($log_response)){echo $log_response;}?>
                         </form>
 
                     </div>
                 </div>
+
+                <br/>
+
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-title">Recent Logs</div>
+                        <table class="table">
+                            <thead class="thead-dark">
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Date</th>
+                                <th scope="col">School</th>
+                                <th scope="col">Role</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Action</th>
+                                <th scope="col">Comment</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <!--Display Logs in a Table-->
+                            <?php
+                            $uid = Session::get('uid');
+                            $logs = $log->getRecentLogs($uid);
+                            if($logs){
+                                $i=0;
+                                while($result=$logs->fetch_assoc()){
+                                    $i++;
+                                    ?>
+                                    <tr>
+                                        <th scope="row"><?php echo $i;?></th>
+                                        <td><?php echo $result['time'];?></td>
+                                        <td><?php echo $result['sclname'];?></td>
+                                        <td><?php echo $result['userType'];?></td>
+                                        <td><?php echo $result['name'];?></td>
+                                        <td><?php echo $result['action'];?></td>
+                                        <td><?php echo $result['comment'];?></td>
+                                        <td><a onclick="return confirm('Are sure to delete?')" href="?logid=<?php echo $result['log_id'];?>" class="btn btn-danger btn-sm">Remove</a></td>
+                                    </tr>
+                                <?php }}?>
+                            </tbody>
+                        </table>
+                        <?php if(isset($dellog)){echo $dellog;}?>
+                    </div>
+
+                </div>
             </div>
+            <!--End main section-->
+
         </div>
     </div>
 </section>
+
+<!--Footer section-->
 <?php include('inc/footer.php')?>
-<script type="text/javascript" src="js/jquery.min.js"></script>
-<script type="text/javascript" src="js/bootstrap.min.js"></script>
+
+<!--Get school and user roles and pass them to javascript function to get name of particular user-->
 <script>
     $(document).ready(function(){
         $("#role").change(function(){
@@ -134,5 +207,3 @@ if(strcmp($coordinator,"Coordinator")!=0){
 
     });
 </script>
-</body>
-</html>
