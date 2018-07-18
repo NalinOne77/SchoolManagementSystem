@@ -60,7 +60,7 @@ class Log
           INNER JOIN schools ON logs.school=schools.school_id
           INNER JOIN user_types ON logs.role=user_types.user_type_id
           INNER JOIN users ON logs.recipient = users.user_id 
-          WHERE recipient='$uid' AND delStatus=1
+          WHERE coordinator_id='$uid' AND delStatus=1
           ORDER BY log_id DESC";
         $result = $this->db->select($query);
         return $result;

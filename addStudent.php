@@ -127,7 +127,7 @@ if(strcmp($teacher,"Teacher")!=0){
                                     <input type="password" class="form-control" name="cpassword" placeholder="Confirm password">
                                 </div>
                             </div>
-                            <input type="submit" name="submit" class="btn btn-info" value="Add">
+                            <button type="submit" name="submit" class="btn btn-info"><i class="fa fa-plus"></i> Add</button>
                             <?php if(isset($addUser)){echo $addUser;}?>
                         </form>
                     </div>
@@ -141,7 +141,7 @@ if(strcmp($teacher,"Teacher")!=0){
                     <div class="card-body">
                         <div class="card-title">Current Students</div>
                         <table class="table">
-                            <thead class="thead-dark">
+                            <thead class="thead-inverse">
                             <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">Student Name</th>
@@ -163,7 +163,7 @@ if(strcmp($teacher,"Teacher")!=0){
                                 <th scope="row"><?php echo $i;?></th>
                                 <td><?php echo $result['name'];?></td>
                                 <td><?php echo $result['userType'];?></td>
-                                <td><a href="#" class="btn btn-danger btn-sm">Remove</a></td>
+                                <td><a href="#" class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i> Remove</a></td>
                             </tr>
                           <?php }}?>
                             </tbody>

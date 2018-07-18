@@ -1,5 +1,7 @@
 <!--Include header from another file-->
-<?php include('inc/header.php'); ?>
+<?php
+ob_start();
+include('inc/header.php'); ?>
 
 <!--Redirect page if wrong user try to access this page-->
 <?php
@@ -103,7 +105,7 @@ if(strcmp($coordinator,"Coordinator")!=0){
 
                             <br/>
                             <button type="submit" name="search" class="btn btn-info"><i class="fa fa-search"></i> Search</button>
-                            <button type="submit" class="btn btn-danger"><i class="fa fa-file-pdf-o"></i> Print</button>
+                            <button type="submit" name="print" class="btn btn-danger"><i class="fa fa-file-pdf-o"></i> Print</button>
                         </form>
 
                     </div>
@@ -117,7 +119,7 @@ if(strcmp($coordinator,"Coordinator")!=0){
                     <div class="card-body">
                         <div class="card-title">All Logs</div>
                         <table class="table">
-                            <thead class="thead-dark">
+                            <thead class="thead-inverse">
                             <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">Date</th>
@@ -130,16 +132,14 @@ if(strcmp($coordinator,"Coordinator")!=0){
                             </thead>
                             <tbody>
                             <!--Display returned results in a Table-->
-                            <?php
-                            $uid = Session::get('uid');
+                            <?php $uid = Session::get('uid');
                             if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['search'])){
                                 $search_response = $log->Search($_POST,$uid);
 
                             if($search_response){
                                 $i=0;
                                 while($result=$search_response->fetch_assoc()){
-                                    $i++;
-                                    ?>
+                                    $i++;?>
                                     <tr>
                                         <th scope="row"><?php echo $i;?></th>
                                         <td><?php echo $result['time'];?></td>
@@ -149,14 +149,67 @@ if(strcmp($coordinator,"Coordinator")!=0){
                                         <td><?php echo $result['action'];?></td>
                                         <td><?php echo $result['comment'];?></td>
                                     </tr>
-                                <?php }}}else{?>
-                            <?php
-                            $logs = $log->getRecentLogs($uid);
+                                    <!--Print logs into PDF-->
+                                <?php }}}else if(isset($_POST['print'])){?>
+                                <?php $logs = $log->Search($_POST,$uid);
+                            if($logs) {
+                                $i = 0;
+                                $data = '';
+                                while ($result = $logs->fetch_assoc()) {
+                                    $i++;
+                                    $data .= '<tr>
+                                        <th scope="row">' . $i . '</th>
+                                        <td>' . $result['time'] . '</td>
+                                        <td>' . $result['sclname'] . '</td>
+                                        <td>' . $result['userType'] . '</td>
+                                        <td>' . $result['name'] . '</td>
+                                        <td>' . $result['action'] . '</td>
+                                        <td>' . $result['comment'] . '</td>
+                                    </tr>';
+                                }
+
+
+                                require_once('classes/tcpdf/tcpdf.php');
+                                $obj_pdf = new TCPDF('P', PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+                                $obj_pdf->SetCreator(PDF_CREATOR);
+                                $obj_pdf->SetTitle("Log Records");
+                                $obj_pdf->SetHeaderData('', '', PDF_HEADER_TITLE, PDF_HEADER_STRING);
+                                $obj_pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+                                $obj_pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+                                $obj_pdf->SetDefaultMonospacedFont('helvetica');
+                                $obj_pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+                                $obj_pdf->SetMargins(PDF_MARGIN_LEFT, '10', PDF_MARGIN_RIGHT);
+                                $obj_pdf->setPrintHeader(false);
+                                $obj_pdf->setPrintFooter(false);
+                                $obj_pdf->SetAutoPageBreak(TRUE, 10);
+                                $obj_pdf->SetFont('helvetica', '', 11);
+                                $obj_pdf->AddPage();
+                                $content = '';
+                                $content .= '  
+                                              <h2>Log Records</h2> 
+                                          <table border="1" cellspacing="0" cellpadding="3">  
+                                               <tr>  
+                                                    <th width="5%">Id</th>  
+                                                    <th width="15%">Time</th> 
+                                                    <th width="15%">School</th> 
+                                                    <th width="10%">Role</th>  
+                                                    <th width="20%">Name</th> 
+                                                    <th width="10%">Action</th>  
+                                                    <th width="20%">Comment</th>   
+                                               </tr>  
+                                          ';
+                                $content .= $data;
+                                $content .= '</table>';
+                                $obj_pdf->writeHTML($content);
+                                ob_end_clean();
+                                $obj_pdf->Output($uid . microtime() . '.pdf', 'FI');
+
+                            }}else{?>
+                                <?php $logs = $log->getAllLogs($uid);
                             if($logs){
                                 $i=0;
                                 while($result=$logs->fetch_assoc()){
-                                    $i++;
-                                    ?>
+                                    $i++;?>
                                     <tr>
                                         <th scope="row"><?php echo $i;?></th>
                                         <td><?php echo $result['time'];?></td>
@@ -167,7 +220,6 @@ if(strcmp($coordinator,"Coordinator")!=0){
                                         <td><?php echo $result['comment'];?></td>
                                     </tr>
                                 <?php }}}?>
-
                             </tbody>
                         </table>
                     </div>
@@ -178,5 +230,10 @@ if(strcmp($coordinator,"Coordinator")!=0){
     </div>
 </section>
 
+<!--Generate PDF-->
+<?php
+if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['search'])){
+$search_response = $log->Search($_POST,$uid);}
+?>
 <!--Footer section-->
 <?php include('inc/footer.php')?>

@@ -87,7 +87,7 @@ if(strcmp($teacher,"Teacher")!=0){
                                 <textarea class="form-control" name="message"></textarea>
                             </div>
 
-                            <input type="submit" class="btn btn-info" value="Send">
+                            <button type="submit" class="btn btn-info"><i class="fa fa-share"></i> Send</button>
                             <?php if(isset($Notification_response)){echo $Notification_response;}?>
                         </form>
 
@@ -98,13 +98,14 @@ if(strcmp($teacher,"Teacher")!=0){
                     <div class="card-body">
                         <div class="card-title">My Notices</div>
                         <table class="table">
-                            <thead class="thead-dark">
+                            <thead class="thead-inverse">
                             <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">Date</th>
                                 <th scope="col">To</th>
                                 <th scope="col">Title</th>
                                 <th scope="col">message</th>
+                                <th scope="col">Action</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -122,7 +123,7 @@ if(strcmp($teacher,"Teacher")!=0){
                                         <td><?php echo $result['userType'];?></td>
                                         <td><?php echo $result['title'];?></td>
                                         <td><?php echo $result['message'];?></td>
-                                        <td><a onclick="return confirm('Are sure to delete?')" href="?notid=<?php echo $result['n_id'];?>" class="btn btn-danger btn-sm">Remove</a></td>
+                                        <td><a onclick="return confirm('Are sure to delete?')" href="?notid=<?php echo $result['n_id'];?>" class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i> Remove</a></td>
                                     </tr>
                                 <?php }}?>
                             </tbody>

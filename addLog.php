@@ -122,7 +122,7 @@ $coordinator= Session::get('role');
                             </div>
 
                             <br/>
-                            <button type="submit" class="btn btn-info"> Add</button>
+                            <button type="submit" class="btn btn-info"><i class="fa fa-plus"></i> Add</button>
                             <?php if(isset($log_response)){echo $log_response;}?>
                         </form>
 
@@ -135,7 +135,7 @@ $coordinator= Session::get('role');
                     <div class="card-body">
                         <div class="card-title">Recent Logs</div>
                         <table class="table">
-                            <thead class="thead-dark">
+                            <thead class="thead-inverse">
                             <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">Date</th>
@@ -144,6 +144,7 @@ $coordinator= Session::get('role');
                                 <th scope="col">Name</th>
                                 <th scope="col">Action</th>
                                 <th scope="col">Comment</th>
+                                <th scope="col">Action</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -164,7 +165,7 @@ $coordinator= Session::get('role');
                                         <td><?php echo $result['name'];?></td>
                                         <td><?php echo $result['action'];?></td>
                                         <td><?php echo $result['comment'];?></td>
-                                        <td><a onclick="return confirm('Are sure to delete?')" href="?logid=<?php echo $result['log_id'];?>" class="btn btn-danger btn-sm">Remove</a></td>
+                                        <td><a onclick="return confirm('Are sure to delete?')" href="?logid=<?php echo $result['log_id'];?>" class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i> Remove</a></td>
                                     </tr>
                                 <?php }}?>
                             </tbody>

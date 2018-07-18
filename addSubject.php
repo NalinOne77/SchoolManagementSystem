@@ -80,7 +80,7 @@ $teacher = Session::get('role');
                                 </div>
                             </div>
 
-                            <input type="submit" class="btn btn-info" value="Add">
+                            <button type="submit" class="btn btn-info"><i class="fa fa-plus"></i> Add</button>
                             <?php if(isset($Subject_response)){echo $Subject_response;}?>
                         </form>
 
@@ -93,7 +93,7 @@ $teacher = Session::get('role');
                     <div class="card-body">
                         <div class="card-title">My Subjects</div>
                         <table class="table">
-                            <thead class="thead-dark">
+                            <thead class="thead-inverse">
                             <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">Subject Name</th>
@@ -115,7 +115,7 @@ $teacher = Session::get('role');
                                 <th scope="row"><?php echo $i;?></th>
                                 <td><?php echo $result['subjectName'];?></td>
                                 <td><?php echo $result['learningHours'];?></td>
-                                <td><a onclick="return confirm('Are sure to delete?')" href="?subid=<?php echo $result['subjects_id'];?>" class="btn btn-danger btn-sm">Remove</a></td>
+                                <td><a onclick="return confirm('Are sure to delete?')" href="?subid=<?php echo $result['subjects_id'];?>" class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i> Remove</a></td>
                             </tr>
                             <?php }}?>
                             </tbody>
